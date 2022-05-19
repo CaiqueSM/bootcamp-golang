@@ -3,9 +3,9 @@ package main
 import "fmt"
 
 var (
-	temperatura string = "18.0 °C"
-	umidade     string = "43%"
-	pressaoAtm  string = "1013 hPa"
+	temperatura int     = 18
+	umidade     float32 = 43
+	pressaoAtm  int     = 1013
 )
 
 func main() {
