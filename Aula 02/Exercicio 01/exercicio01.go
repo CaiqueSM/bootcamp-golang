@@ -10,7 +10,7 @@ func calcularImpostoSalario(Asalario, Ataxa float32) float32 {
 func main() {
 
 	var (
-		imposto float32
+		imposto float32 = 0
 
 		salario1 float32 = 50000
 		salario2 float32 = 150000
