@@ -3,18 +3,15 @@ package main
 import "fmt"
 
 const (
-	horasMensais        = 160
-	salarioCategoriaA   = 3000
-	salarioCategoriaB   = 1500
-	salarioCategoriaC   = 1000
-	adicionalCategoriaA = 50 / 100
-	adicionalCategoriaB = 20 / 100
+	horasMensais      = 160
+	salarioCategoriaA = 3000
+	salarioCategoriaB = 1500
+	salarioCategoriaC = 1000
 )
 
 func calcularSalarioCategoriaA(horas int) float64 {
 	if horas > horasMensais {
-		return float64(salarioCategoriaA*horas +
-			((salarioCategoriaA * (horas - horasMensais)) * adicionalCategoriaA))
+		return float64(horas) * salarioCategoriaA * 1.5
 	} else {
 		return float64(salarioCategoriaA * horas)
 	}
@@ -22,8 +19,7 @@ func calcularSalarioCategoriaA(horas int) float64 {
 
 func calcularSalarioCategoriaB(horas int) float64 {
 	if horas > horasMensais {
-		return float64(salarioCategoriaB*horas +
-			((salarioCategoriaB * (horas - horasMensais)) * adicionalCategoriaB))
+		return float64(horas) * salarioCategoriaB * 1.2
 	} else {
 		return float64(salarioCategoriaB * horas)
 	}
