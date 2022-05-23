@@ -17,6 +17,11 @@ type Produto interface {
 type Ecommerce interface {
 	Total()
 	Adicionar()
-	novoProduto(tipo, nome string, preco float64) Produto
-	novaLoja() Ecommerce
+}
+
+func novoProduto(tipo, nome string, preco float64) Produto {
+	return nil
+}
+func novaLoja() Ecommerce {
+	return nil
 }
