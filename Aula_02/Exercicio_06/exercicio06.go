@@ -10,10 +10,10 @@ type Aluno struct {
 }
 
 func (a *Aluno) Detalhes() {
-	fmt.Println(a.primeiroNome)
-	fmt.Println(a.sobrenome)
-	fmt.Println(a.rg)
-	fmt.Println(a.dataDeAdmissao)
+	fmt.Println("Nome:", a.primeiroNome)
+	fmt.Println("Sobrenome:", a.sobrenome)
+	fmt.Println("RG:", a.rg)
+	fmt.Println("Data admissão:", a.dataDeAdmissao)
 }
 
 func main() {
