@@ -38,7 +38,7 @@ func (p *produto) CustoAdicional(tipo string) (func() float64, error) {
 	case grande:
 		return p.custoAdicionalProdutoGrande, nil
 	default:
-		return nil, errors.New("tipo desconhecido")
+		return nil, errors.New("tipo produto desconhecido")
 	}
 }
 
