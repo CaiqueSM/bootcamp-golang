@@ -6,46 +6,35 @@ import (
 )
 
 const (
-	salarioMinimo = 15000
 	salarioTributavel = 20000
-	valorHora     = 2000
+	valorHora         = 100
 )
 
-func VerificarSalario(valor int) error {
-
-	if valor < salarioMinimo {
-		return fmt.Errorf("erro: o mínimo tributável é 15.000 e o salário informado é: %d", valor)
-	}
-	return nil
-}
-
-func CalcularSalario(valorHora int, horasTrabalhadas int)(int, error) {
+func CalcularSalario(valorHora int, horasTrabalhadas int) (int, error) {
 	salario := valorHora * horasTrabalhadas
 
-	if horasTrabalhadas < 0{
-		err := errors.New("erro: as horas trabalhadas nao pode ser negativa")
-		return 0, err
-	}
-
-	if horasTrabalhadas < 80{
+	if horasTrabalhadas < 80 {
 		err := errors.New("erro: o trabalhador não pode ter trabalhado menos de 80 horas por mês")
 		return 0, err
 	}
 
-	if salario >= salarioTributavel{
+	if salario >= salarioTributavel {
 		salario = int(float64(salario) * float64(0.9))
 	}
 	return salario, nil
 }
 
 func main() {
-	salario := 10000
 
-	err := VerificarSalario(salario)
+	salario, err1 := CalcularSalario(valorHora, 79)
 
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("Necessário pagamento de imposto")
+	err2 := fmt.Errorf("err1: %w", err1)
+
+	if err1 != nil {
+		fmt.Println(errors.Unwrap(err2))
+		fmt.Println(errors.Unwrap(err1))
 	}
+
+	fmt.Println("Salário após as dedução de imposto", salario)
+
 }
