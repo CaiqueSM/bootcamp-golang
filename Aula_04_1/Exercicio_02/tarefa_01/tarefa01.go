@@ -1,8 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"math/rand"
-	"strings"
+	"os"
 )
 
 type Cliente struct {
@@ -15,19 +16,19 @@ type Cliente struct {
 }
 
 func GerarID(semente int) int {
-	ID := rand.Intn(semente)
-	return ID
+	return rand.Intn(semente)
 }
 
-func cadastrarCliente(cliente Cliente){
-	ID := GerarID
+func cadastrarCliente(cliente Cliente, clientes []Cliente) []Cliente {
+	ID := GerarID(100)
 
-	if ID == 0{
+	if ID == 0 {
 		panic("ID não pode ser nulo")
 	}
 
-	cliente.arquivo := ID
-	
+	cliente.arquivo = ID
+
+	return append(clientes, cliente)
 }
 
 func lerArquivo(caminho string) []string {
@@ -51,25 +52,12 @@ func lerArquivo(caminho string) []string {
 	return texto
 }
 
-func recuperarDados(texto []string)[]Cliente{
-	var clientes []Cliente
-	for _, linha := range texto{
-		info := strings.Split(linha, " ")
-		clientes = append(clientes, Cliente{info[0], info[1], info[2], info[3], info[4], info[5] })
-	}
-	return clientes
-}
+func main() {
 
-func Existe(RG string, clientes []Cliente)bool{
-	for _,cliente := range clientes{
-		if RG == cliente.RG{
-			return true
-		}
-	}
-	return false
-}
+	novoCliente := Cliente{0, "C", "da SM", "98.765.456-0", "24910102020", "rua A, n 100, cidade das letras"}
 
-func main(){
-	
-}
+	lerArquivo("customers.txt")
 
+	cadastrarCliente(novoCliente, []Cliente{})
+
+}
