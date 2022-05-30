@@ -1,0 +1,12 @@
+{
+    "usuario":[{
+        "id":1,
+        "nome":"",
+        "sobrenome":"",
+        "email":"@mail.com",
+        "ïdade":0,
+        "ältura":0,
+        "ativo":false,
+        "data":0
+    } ] 
+}
