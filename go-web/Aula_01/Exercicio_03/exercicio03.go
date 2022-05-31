@@ -8,14 +8,14 @@ import (
 )
 
 type Usuario struct {
-	Id        int       `json: "id"`
-	Nome      string    `json: "nome"`
-	Sobrenome string    `json: "sobrenome"`
-	Email     string    `json: "email"`
-	Idade     uint      `json: "idade"`
-	Altura    float64   `json: "altura"`
-	Ativo     bool      `json: "ativo"`
-	Data      time.Time `json: "data de criação"`
+	Id        int       `json:"id"`
+	Nome      string    `json:"nome"`
+	Sobrenome string    `json:"sobrenome"`
+	Email     string    `json:"email"`
+	Idade     uint      `json:"idade"`
+	Altura    float64   `json:"altura"`
+	Ativo     bool      `json:"ativo"`
+	Data      time.Time `json:"data de criação"`
 }
 
 func GetAll(c *gin.Context) {

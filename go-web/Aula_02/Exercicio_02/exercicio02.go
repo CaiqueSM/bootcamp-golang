@@ -7,14 +7,14 @@ import (
 )
 
 type Usuario struct {
-	Id        int64   `json: "id"`
-	Nome      string  `json: "nome"`
-	Sobrenome string  `json: "sobrenome"`
-	Email     string  `json: "email"`
-	Idade     uint    `json: "idade"`
-	Altura    float64 `json: "altura"`
-	Ativo     bool    `json: "ativo"`
-	Data      string  `json: "data de criação"`
+	Id        int64   `json:"id"`
+	Nome      string  `json:"nome"`
+	Sobrenome string  `json:"sobrenome"`
+	Email     string  `json:"email"`
+	Idade     uint    `json:"idade"`
+	Altura    float64 `json:"altura"`
+	Ativo     bool    `json:"ativo"`
+	Data      string  `json:"data de criação"`
 }
 
 var usuarios = map[string]Usuario{
