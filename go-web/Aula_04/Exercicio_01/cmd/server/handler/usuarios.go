@@ -137,3 +137,101 @@ func (c *Usuario) Update() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, u)
 	}
 }
+
+func (c *Usuario) UpdateSobrenome() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.Request.Header.Get("token")
+		if token != "123456" {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": "token invalido",
+			})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, fmt.Errorf("invalid ID: %d", id))
+			return
+		}
+		var req request
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		if req.Sobrenome == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "O sobrenome é obrigatório"})
+			return
+		}
+
+		u, err := c.service.UpdateSobrenome(id, req.Sobrenome)
+		if err!= nil{
+			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, u)
+	}
+}
+
+func (c *Usuario) UpdateIdade() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.Request.Header.Get("token")
+		if token != "123456" {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": "token invalido",
+			})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, fmt.Errorf("invalid ID: %d", id))
+			return
+		}
+		var req request
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		if req.Idade == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "A idade é obrigatória"})
+			return
+		}
+
+		u, err := c.service.UpdateIdade(id, req.Idade)
+		if err!= nil{
+			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, u)
+	}
+}
+
+func (c *Usuario) Delete()gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.Request.Header.Get("token")
+		if token != "123456" {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": "token invalido",
+			})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, fmt.Errorf("invalid ID: %d", id))
+			return
+		}
+
+		err = c.service.Delete(id)
+		if err!= nil{
+			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{"data": fmt.Sprintf("O produto %d foi removido", id)})
+	}
+}
