@@ -3,6 +3,7 @@ package usuarios
 type Service interface {
 	GetAll() ([]Usuario, error)
 	Store(nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
+	Update(id int, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
 }
 
 type service struct {
@@ -38,4 +39,8 @@ func (s *service) Store(nome, sobrenome, email string, idade uint, altura float6
 	}
 
 	return usuario, nil
+}
+
+func (s *service)Update(id int, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error){
+	return s.repository.Update(id, nome, sobrenome, email, idade, altura, ativo, data)
 }
