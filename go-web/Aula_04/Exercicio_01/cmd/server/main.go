@@ -15,5 +15,6 @@ func main(){
 	ur := r.Group("/usuarios")
 	ur.POST("/", u.Store())
 	ur.GET("/", u.GetAll())
+	ur.PUT("/:id", u.Update())
 	r.Run()
 }

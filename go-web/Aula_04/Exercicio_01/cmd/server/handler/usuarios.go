@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/gin-gonic/gin"
@@ -70,6 +72,66 @@ func (c *Usuario) Store() gin.HandlerFunc {
 			ctx.JSON(http.StatusNotFound, gin.H{
 				"error": err.Error(),
 			})
+			return
+		}
+		ctx.JSON(http.StatusOK, u)
+	}
+}
+
+func (c *Usuario) Update() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.Request.Header.Get("token")
+		if token != "123456" {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": "token invalido",
+			})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, fmt.Errorf("invalid ID: %d", id))
+			return
+		}
+		var req request
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		if req.Nome == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "O nome é obrigatório"})
+			return
+		}
+		if req.Sobrenome == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "O sobrenome é obrigatório"})
+			return
+		}
+		if req.Email == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "O email é obrigatório"})
+			return
+		}
+		if req.Idade == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "A idade é obrigatória"})
+			return
+		}
+		if req.Altura == 0.0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "A altura é obrigatória"})
+			return
+		}
+		if !req.Ativo {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "É obrigatório estar ativo"})
+			return
+		}
+		if req.Data == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "A data é obrigatória"})
+			return
+		}
+		u, err := c.service.Update(id, req.Nome, req.Sobrenome, req.Email, req.Idade, req.Altura, req.Ativo, req.Data)
+		if err!= nil{
+			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
 			return
 		}
 		ctx.JSON(http.StatusOK, u)
