@@ -2,7 +2,6 @@ package usuarios
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 )
@@ -18,7 +17,7 @@ type Usuario struct {
 	Data      string  `json:"data"`
 }
 
-var ps []Usuario = []Usuario{}
+//var ps []Usuario = []Usuario{}
 
 type Repository interface {
 	GetAll() ([]Usuario, error)
@@ -61,10 +60,11 @@ func (r *repository) LastID() (int64, error) {
 	return ps[len(ps)-1].Id, nil
 }
 
-func (repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
+func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
 	u := Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
+	var ps []Usuario
+	r.db.Read(&ps)
 	updated := false
-	log.Printf("%d", len(ps))
 	for i := range ps {
 		if ps[i].Id == id {
 			u.Id = id
@@ -74,13 +74,20 @@ func (repository) Update(id int64, nome, sobrenome, email string, idade uint, al
 	}
 
 	if !updated {
-		return Usuario{}, fmt.Errorf("usuário %d não encontrado yo", id)
+		return Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
 	}
+
+	if err := r.db.Write(ps); err != nil {
+		return Usuario{}, err
+	}
+
 	return u, nil
 }
 
-func (repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
+func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
 	var u Usuario
+	var ps []Usuario
+	r.db.Read(&ps)
 	updated := false
 	for i := range ps {
 		if ps[i].Id == id {
@@ -94,10 +101,18 @@ func (repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (
 	if !updated {
 		return Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
 	}
+
+	if err := r.db.Write(ps); err != nil {
+		return Usuario{}, err
+	}
+
 	return u, nil
 }
 
-func (repository) Delete(id int64) error {
+func (r *repository) Delete(id int64) error {
+	var ps []Usuario
+	r.db.Read(&ps)
+	
 	deleted := false
 	var index int
 	for i := range ps {
@@ -110,6 +125,10 @@ func (repository) Delete(id int64) error {
 		return fmt.Errorf("usuário %d não encontrado", id)
 	}
 	ps = append(ps[:index], ps[index+1:]...)
+
+	if err := r.db.Write(ps); err != nil {
+		return err
+	}
 	return nil
 }
 
