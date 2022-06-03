@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/cmd/server/handler"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/cmd/server/handler/controller"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,7 @@ func main() {
 	db := store.New(store.FileType, "usuarios.json")
 	repo := usuarios.NewRepository(db)
 	service := usuarios.NewService(repo)
-	u := handler.NewUsuario(service)
+	u := controller.NewUsuario(service)
 
 	r := gin.Default()
 	ur := r.Group("/usuarios")
