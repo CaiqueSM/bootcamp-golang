@@ -4,7 +4,7 @@ type Service interface {
 	GetAll() ([]Usuario, error)
 	Store(nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
 	Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
-	UpdateSobrenomeIdade(id int64, sobrenome string, idade uint)(Usuario, error)
+	UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error)
 	Delete(id int64) error
 }
 
@@ -18,7 +18,7 @@ func NewService(r Repository) Service {
 	}
 }
 
-func (s *service) GetAll() ([]Usuario, error) {
+func (s service) GetAll() ([]Usuario, error) {
 	ps, err := s.repository.GetAll()
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func (s *service) GetAll() ([]Usuario, error) {
 	return ps, nil
 }
 
-func (s *service) Store(nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
+func (s service) Store(nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
 	lastID, err := s.repository.LastID()
 	if err != nil {
 		return Usuario{}, err
@@ -43,14 +43,22 @@ func (s *service) Store(nome, sobrenome, email string, idade uint, altura float6
 	return usuario, nil
 }
 
-func (s *service)Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error){
-	return s.repository.Update(id, nome, sobrenome, email, idade, altura, ativo, data)
+func (s service) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
+	usuario, err := s.repository.Update(id, nome, sobrenome, email, idade, altura, ativo, data)
+	if err != nil {
+		return Usuario{}, err
+	}
+	return usuario, err
 }
 
-func (s *service)UpdateSobrenomeIdade(id int64, sobrenome string, idade uint)(Usuario, error){
+func (s service) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
 	return s.repository.UpdateSobrenomeIdade(id, sobrenome, idade)
 }
 
-func (s *service) Delete(id int64) error{
-	return s.repository.Delete(id)
+func (s service) Delete(id int64) error {
+	err := s.repository.Delete(id)
+	if err != nil {
+		return err
+	}
+	return err
 }

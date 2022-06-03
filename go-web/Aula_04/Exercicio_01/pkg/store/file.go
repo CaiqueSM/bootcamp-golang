@@ -2,6 +2,7 @@ package store
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 )
 
@@ -29,16 +30,18 @@ type FileStore struct {
 }
 
 func (fs *FileStore) Write(data interface{}) error {
-	fileData, err := json.MarshalIndent(data, "", "")
+	fileData, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
+		log.Println("failed to write. err:", err)
 		return err
 	}
 	return os.WriteFile(fs.FileName, fileData, 0644)
 }
 
-func (fs *FileStore) Read(data interface{}) error{
+func (fs *FileStore) Read(data interface{}) error {
 	file, err := os.ReadFile(fs.FileName)
-	if err!= nil{
+	if err != nil {
+		log.Println("failed to read. err:", err)
 		return err
 	}
 	return json.Unmarshal(file, &data)

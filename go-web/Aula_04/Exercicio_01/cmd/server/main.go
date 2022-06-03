@@ -15,7 +15,7 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to load .env")
 	}
-	db := store.New(store.FileType, "./usuarios.json")
+	db := store.New(store.FileType, "usuarios.json")
 	repo := usuarios.NewRepository(db)
 	service := usuarios.NewService(repo)
 	u := handler.NewUsuario(service)

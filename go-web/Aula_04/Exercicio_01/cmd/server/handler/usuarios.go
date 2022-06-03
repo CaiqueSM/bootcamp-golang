@@ -24,12 +24,6 @@ type Usuario struct {
 	service usuarios.Service
 }
 
-func NewUsuario(u usuarios.Service) *Usuario {
-	return &Usuario{
-		service: u,
-	}
-}
-
 func (c *Usuario) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
@@ -131,8 +125,8 @@ func (c *Usuario) Update() gin.HandlerFunc {
 			return
 		}
 		u, err := c.service.Update(id, req.Nome, req.Sobrenome, req.Email, req.Idade, req.Altura, req.Ativo, req.Data)
-		if err!= nil{
-			ctx.JSON(http.StatusNotFound, gin.H{"errorn":err.Error()})
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{"errorn": err.Error()})
 			return
 		}
 		ctx.JSON(http.StatusOK, u)
@@ -173,15 +167,15 @@ func (c *Usuario) UpdateSobrenomeIdade() gin.HandlerFunc {
 		}
 
 		u, err := c.service.UpdateSobrenomeIdade(id, req.Sobrenome, req.Idade)
-		if err!= nil{
-			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
 		ctx.JSON(http.StatusOK, u)
 	}
 }
 
-func (c *Usuario) Delete()gin.HandlerFunc {
+func (c *Usuario) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
 		if token != os.Getenv("TOKEN") {
@@ -197,10 +191,16 @@ func (c *Usuario) Delete()gin.HandlerFunc {
 		}
 
 		err = c.service.Delete(id)
-		if err!= nil{
-			ctx.JSON(http.StatusNotFound, gin.H{"error":err.Error()})
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{"data": fmt.Sprintf("O produto %d foi removido", id)})
+	}
+}
+
+func NewUsuario(u usuarios.Service) *Usuario {
+	return &Usuario{
+		service: u,
 	}
 }

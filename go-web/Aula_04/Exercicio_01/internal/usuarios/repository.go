@@ -8,14 +8,14 @@ import (
 )
 
 type Usuario struct {
-	Id        int64   `json:"id" binding:"required"`
-	Nome      string  `json:"nome" binding:"required"`
-	Sobrenome string  `json:"sobrenome" binding:"required"`
-	Email     string  `json:"email" binding:"required"`
-	Idade     uint    `json:"idade" binding:"required"`
-	Altura    float64 `json:"altura" binding:"required"`
-	Ativo     bool    `json:"ativo" binding:"required"`
-	Data      string  `json:"data" binding:"required"`
+	Id        int64   `json:"id"`
+	Nome      string  `json:"nome"`
+	Sobrenome string  `json:"sobrenome"`
+	Email     string  `json:"email"`
+	Idade     uint    `json:"idade"`
+	Altura    float64 `json:"altura"`
+	Ativo     bool    `json:"ativo"`
+	Data      string  `json:"data"`
 }
 
 var ps []Usuario = []Usuario{}
@@ -31,12 +31,6 @@ type Repository interface {
 
 type repository struct {
 	db store.Store
-}
-
-func NewRepository(db store.Store) Repository {
-	return &repository{
-		db: db,
-	}
 }
 
 func (r *repository) GetAll() ([]Usuario, error) {
@@ -67,12 +61,11 @@ func (r *repository) LastID() (int64, error) {
 	return ps[len(ps)-1].Id, nil
 }
 
-func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
-	u := Usuario{id, nome, sobrenome, email, idade, altura, ativo, data}
+func (repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
+	u := Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
 	updated := false
+	log.Printf("%d", len(ps))
 	for i := range ps {
-		log.Printf("%d",ps[i].Id)
-		fmt.Printf("%d",ps[i].Id)
 		if ps[i].Id == id {
 			u.Id = id
 			ps[i] = u
@@ -81,12 +74,12 @@ func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint,
 	}
 
 	if !updated {
-		return Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
+		return Usuario{}, fmt.Errorf("usuário %d não encontrado yo", id)
 	}
 	return u, nil
 }
 
-func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
+func (repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
 	var u Usuario
 	updated := false
 	for i := range ps {
@@ -104,7 +97,7 @@ func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint
 	return u, nil
 }
 
-func (r *repository) Delete(id int64) error {
+func (repository) Delete(id int64) error {
 	deleted := false
 	var index int
 	for i := range ps {
@@ -118,4 +111,10 @@ func (r *repository) Delete(id int64) error {
 	}
 	ps = append(ps[:index], ps[index+1:]...)
 	return nil
+}
+
+func NewRepository(db store.Store) Repository {
+	return &repository{
+		db: db,
+	}
 }
