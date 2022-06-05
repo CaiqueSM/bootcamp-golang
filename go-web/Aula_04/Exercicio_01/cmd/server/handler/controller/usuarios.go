@@ -24,7 +24,15 @@ type request struct {
 type Usuario struct {
 	service usuarios.Service
 }
-
+// ListUsers godoc
+// @Summary List Users
+// @Tags Users
+// @Description get users
+// @Accept json
+// @Produce json
+// @Param token header string true "token"
+// @Success 200 {object} web.Response
+// @Router /usuarios [get]
 func (c *Usuario) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
@@ -41,7 +49,16 @@ func (c *Usuario) GetAll() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, web.NewRespponse(http.StatusOK, u, ""))
 	}
 }
-
+//StoreUsers godoc
+//@Summary Store Users
+//@Tags Users
+//@Description get users
+//@Accept json
+//@Produce json
+//@Param token header string true "token"
+//@Param usuarios body request true "usuario to store"
+//@Success 200 {object} web.Response
+//@Router /usuarios [post]
 func (c *Usuario) Store() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
@@ -64,6 +81,16 @@ func (c *Usuario) Store() gin.HandlerFunc {
 	}
 }
 
+//StoreUsers godoc
+//@Summary Update Users
+//@Tags Users
+//@Description get users
+//@Accept json
+//@Produce json
+//@Param token header string true "token"
+//@Param usuarios body request true "usuario to update"
+//@Success 200 {object} web.Response
+//@Router /usuarios/:id [put]
 func (c *Usuario) Update() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
@@ -120,6 +147,16 @@ func (c *Usuario) Update() gin.HandlerFunc {
 	}
 }
 
+//StoreUsers godoc
+//@Summary UpdateSobrenomeIdade Users
+//@Tags Users
+//@Description Update users
+//@Accept json
+//@Produce json
+//@Param token header string true "token"
+//@Param usuarios body request true "usuario to update"
+//@Success 200 {object} web.Response
+//@Router /usuarios/:id [patch]
 func (c *Usuario) UpdateSobrenomeIdade() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
@@ -158,6 +195,16 @@ func (c *Usuario) UpdateSobrenomeIdade() gin.HandlerFunc {
 	}
 }
 
+//StoreUsers godoc
+//@Summary Delete Users
+//@Tags Users
+//@Description delete users
+//@Accept json
+//@Produce json
+//@Param token header string true "token"
+//@Param usuarios body request true "usuario to delete"
+//@Success 200 {object} web.Response
+//@Router /usuarios [delete]
 func (c *Usuario) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")

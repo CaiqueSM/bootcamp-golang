@@ -1,0 +1,172 @@
+definitions:
+  controller.request:
+    properties:
+      altura:
+        type: number
+      ativo:
+        type: boolean
+      data:
+        type: string
+      email:
+        type: string
+      idade:
+        type: integer
+      nome:
+        type: string
+      sobrenome:
+        type: string
+    required:
+    - altura
+    - ativo
+    - data
+    - email
+    - idade
+    - nome
+    - sobrenome
+    type: object
+  web.Response:
+    properties:
+      code:
+        type: string
+      data: {}
+      error:
+        type: string
+    type: object
+info:
+  contact:
+    name: API Support
+    url: https://developers.mercadolivre.com.ar/suppoert
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://developers.mercadolibre.com.ar/es_ar/terminos-y-condiciones
+  title: MELI Bootcamp API
+  version: "1.0"
+paths:
+  /usuarios:
+    delete:
+      consumes:
+      - application/json
+      description: delete users
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: usuario to delete
+        in: body
+        name: usuarios
+        required: true
+        schema:
+          $ref: '#/definitions/controller.request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Delete Users
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: get users
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: List Users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: get users
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: usuario to store
+        in: body
+        name: usuarios
+        required: true
+        schema:
+          $ref: '#/definitions/controller.request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Store Users
+      tags:
+      - Users
+  /usuarios/:id:
+    patch:
+      consumes:
+      - application/json
+      description: Update users
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: usuario to update
+        in: body
+        name: usuarios
+        required: true
+        schema:
+          $ref: '#/definitions/controller.request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: UpdateSobrenomeIdade Users
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: get users
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: usuario to update
+        in: body
+        name: usuarios
+        required: true
+        schema:
+          $ref: '#/definitions/controller.request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update Users
+      tags:
+      - Users
+swagger: "2.0"
