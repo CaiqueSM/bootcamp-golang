@@ -1,0 +1,24 @@
+Exercício 1
+Quais são as diferenças entre a caixa branca e a caixa preta?
+
+R: A diferença é que no teste de caixa preta sua estrutura, projeto ou operação é desconhecida
+pela pessoa que executa o teste. Seu objetivo é avaliar o comportamento do componente testado 
+em diferentes cenários.
+No teste de caixa branca quem o executa conhece e tem visibilidade sobre o código. Ele se concentra
+nos detalhes processuais do software.
+
+Exercício 2
+O que é um teste funcional?
+
+Validam se o código atende a um determinado requisito.
+
+Exercício 3
+O que é um teste de integração?
+
+Testes de integração verificam se os diferentes módulos ou serviços utilizados pelo
+nosso aplicativo funcionam em harmonia quando trabalham juntos.
+
+Exercício 4
+Indique as dimensões prioritárias de qualidade no MELI.
+
+As dimensões são funcinalidade, atuação, confiabilidade, segurança, manutenibilidade.
