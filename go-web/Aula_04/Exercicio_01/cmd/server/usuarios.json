@@ -2,21 +2,11 @@
   {
     "id": 1,
     "nome": "A",
-    "sobrenome": "After Update",
-    "email": "alternativo@email.com",
-    "idade": 49,
-    "altura": 1.9,
-    "ativo": true,
-    "data": "08/06/2022"
-  },
-  {
-    "id": 2,
-    "nome": "B",
-    "sobrenome": "cdefg",
+    "sobrenome": "Before Update",
     "email": "generico@email.com",
-    "idade": 25,
-    "altura": 1.7,
+    "idade": 50,
+    "altura": 1.89,
     "ativo": true,
-    "data": "08/06/2022"
+    "data": "07/06/2022"
   }
 ]
