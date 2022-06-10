@@ -115,7 +115,7 @@ func (c *Usuario) Update() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "Erro: Id inválido"))
 			return
 		}
-		var req requestUpdate
+		var req request
 
 		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, err.Error()))
