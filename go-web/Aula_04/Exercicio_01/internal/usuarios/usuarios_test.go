@@ -1,4 +1,4 @@
-package teste
+package usuarios_test
 
 import (
 	"bytes"
@@ -43,7 +43,7 @@ func createRequestTest(method string, url string, body []byte) (*http.Request,
 func TestDeleteUsuariosOK(t *testing.T) {
 
 	r := createServer()
-	req, rr := createRequestTest(http.MethodDelete, "/usuarios/4", nil)
+	req, rr := createRequestTest(http.MethodDelete, "/usuarios/1", nil)
 
 	r.ServeHTTP(rr, req)
 
@@ -74,7 +74,7 @@ func TestPatchUsuariosOK(t *testing.T) {
 
 	input := usuarios.Usuario{
 		Id:        1,
-		Sobrenome: "After Update",
+		Sobrenome: "Patch Update",
 		Idade:     45,
 	}
 
@@ -85,7 +85,7 @@ func TestPatchUsuariosOK(t *testing.T) {
 	}
 
 	r := createServer()
-	req, rr := createRequestTest(http.MethodPatch, "/usuarios/1", update)
+	req, rr := createRequestTest(http.MethodPatch, "/usuarios/3", update)
 
 	r.ServeHTTP(rr, req)
 
@@ -123,7 +123,7 @@ func TestPutUsuariosOK(t *testing.T) {
 	input := usuarios.Usuario{
 		Id:        4,
 		Nome:      "abcd",
-		Sobrenome: "jdhfg",
+		Sobrenome: "Put Update",
 		Email:     "generico@email.com",
 		Idade:     25,
 		Altura:    1.68,
@@ -138,7 +138,7 @@ func TestPutUsuariosOK(t *testing.T) {
 	}
 
 	r := createServer()
-	req, rr := createRequestTest(http.MethodPut, "/usuarios/1", update)
+	req, rr := createRequestTest(http.MethodPut, "/usuarios/2", update)
 
 	r.ServeHTTP(rr, req)
 
