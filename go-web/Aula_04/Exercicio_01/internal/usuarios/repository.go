@@ -99,8 +99,13 @@ func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint
 	updated := false
 	for i := range ps {
 		if ps[i].Id == id {
-			ps[i].Sobrenome = sobrenome
-			ps[i].Idade = idade
+			if sobrenome != "" {
+				ps[i].Sobrenome = sobrenome
+			}
+			if idade != 0 {
+				ps[i].Idade = idade
+			}
+
 			updated = true
 			u = ps[i]
 		}
@@ -122,7 +127,7 @@ func (r *repository) Delete(id int64) error {
 	if err := r.db.Read(&ps); err != nil {
 		return err
 	}
-	
+
 	deleted := false
 	var index int
 	for i := range ps {

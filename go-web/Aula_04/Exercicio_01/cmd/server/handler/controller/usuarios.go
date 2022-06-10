@@ -21,9 +21,20 @@ type request struct {
 	Data      string  `json:"data" binding:"required"`
 }
 
+type requestUpdate struct {
+	Nome      string  `json:"nome"`
+	Sobrenome string  `json:"sobrenome"`
+	Email     string  `json:"email"`
+	Idade     uint    `json:"idade"`
+	Altura    float64 `json:"altura"`
+	Ativo     bool    `json:"ativo"`
+	Data      string  `json:"data"`
+}
+
 type Usuario struct {
 	service usuarios.Service
 }
+
 // ListUsers godoc
 // @Summary List Users
 // @Tags Users
@@ -49,6 +60,7 @@ func (c *Usuario) GetAll() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, web.NewRespponse(http.StatusOK, u, ""))
 	}
 }
+
 //StoreUsers godoc
 //@Summary Store Users
 //@Tags Users
@@ -103,7 +115,7 @@ func (c *Usuario) Update() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "Erro: Id inválido"))
 			return
 		}
-		var req request
+		var req requestUpdate
 
 		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, err.Error()))
@@ -111,31 +123,31 @@ func (c *Usuario) Update() gin.HandlerFunc {
 		}
 
 		if req.Nome == "" {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"Error: O nome é obrigatório"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "Error: O nome é obrigatório"))
 			return
 		}
 		if req.Sobrenome == "" {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: O sobrenome é obrigatório"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: O sobrenome é obrigatório"))
 			return
 		}
 		if req.Email == "" {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: O email é obrigatório"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: O email é obrigatório"))
 			return
 		}
 		if req.Idade == 0 {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: A idade é obrigatória"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: A idade é obrigatória"))
 			return
 		}
 		if req.Altura == 0.0 {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: A altura é obrigatória"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: A altura é obrigatória"))
 			return
 		}
 		if !req.Ativo {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: É obrigatório estar ativo"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: É obrigatório estar ativo"))
 			return
 		}
 		if req.Data == "" {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: A data é obrigatória"))
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: A data é obrigatória"))
 			return
 		}
 		u, err := c.service.Update(id, req.Nome, req.Sobrenome, req.Email, req.Idade, req.Altura, req.Ativo, req.Data)
@@ -169,20 +181,16 @@ func (c *Usuario) UpdateSobrenomeIdade() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "Erro: Id inválido"))
 			return
 		}
-		var req request
+		var req requestUpdate
 
 		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, err.Error()))
 			return
 		}
 
-		if req.Sobrenome == "" {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: O sobrenome é obrigatório"))
-			return
-		}
-
-		if req.Idade == 0 {
-			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil,"error: A idade é obrigatória"))
+		if req.Nome == "" && req.Sobrenome == "" && req.Email == "" && req.Idade == 0 &&
+			req.Altura == 0.0 && !req.Ativo && req.Data == "" {
+			ctx.JSON(http.StatusBadRequest, web.NewRespponse(http.StatusBadRequest, nil, "error: solicitação vazia."))
 			return
 		}
 
