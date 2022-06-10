@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "nome": "abcd",
+    "sobrenome": "jdhfg",
+    "email": "generico@email.com",
+    "idade": 25,
+    "altura": 1.68,
+    "ativo": true,
+    "data": "09/06/2022"
+  },
+  {
+    "id": 2,
+    "nome": "A",
+    "sobrenome": "Before Update",
+    "email": "generico@email.com",
+    "idade": 50,
+    "altura": 1.89,
+    "ativo": true,
+    "data": "07/06/2022"
+  },
+  {
+    "id": 3,
+    "nome": "B",
+    "sobrenome": "cdefg",
+    "email": "generico@email.com",
+    "idade": 25,
+    "altura": 1.7,
+    "ativo": true,
+    "data": "08/06/2022"
+  }
+]
