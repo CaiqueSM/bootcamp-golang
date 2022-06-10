@@ -34,13 +34,17 @@ type repository struct {
 
 func (r *repository) GetAll() ([]Usuario, error) {
 	var ps []Usuario
-	r.db.Read(&ps)
+	if err := r.db.Read(&ps); err != nil {
+		return []Usuario{}, err
+	}
 	return ps, nil
 }
 
 func (r *repository) Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
 	var ps []Usuario
-	r.db.Read(&ps)
+	if err := r.db.Read(&ps); err != nil {
+		return Usuario{}, err
+	}
 	u := Usuario{id, nome, sobrenome, email, idade, altura, ativo, data}
 	ps = append(ps, u)
 	if err := r.db.Write(ps); err != nil {
@@ -63,7 +67,9 @@ func (r *repository) LastID() (int64, error) {
 func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
 	u := Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
 	var ps []Usuario
-	r.db.Read(&ps)
+	if err := r.db.Read(&ps); err != nil {
+		return Usuario{}, err
+	}
 	updated := false
 	for i := range ps {
 		if ps[i].Id == id {
@@ -87,7 +93,9 @@ func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint,
 func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
 	var u Usuario
 	var ps []Usuario
-	r.db.Read(&ps)
+	if err := r.db.Read(&ps); err != nil {
+		return Usuario{}, err
+	}
 	updated := false
 	for i := range ps {
 		if ps[i].Id == id {
@@ -111,7 +119,9 @@ func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint
 
 func (r *repository) Delete(id int64) error {
 	var ps []Usuario
-	r.db.Read(&ps)
+	if err := r.db.Read(&ps); err != nil {
+		return err
+	}
 	
 	deleted := false
 	var index int

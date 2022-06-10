@@ -30,14 +30,14 @@ func main() {
 		log.Fatal("failed to load .env")
 	}
 
-	db := store.New(store.FileType, "usuarios.json")
+	db := store.New(store.FileType, "../../usuarios.json")
 	repo := usuarios.NewRepository(db)
 	service := usuarios.NewService(repo)
 	u := controller.NewUsuario(service)
 	r := gin.Default()
 
 	docs.SwaggerInfo.Host = os.Getenv("HOST")
-	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) 
 
 	ur := r.Group("/usuarios")
 	{
@@ -47,5 +47,8 @@ func main() {
 		ur.PATCH("/:id", u.UpdateSobrenomeIdade())
 		ur.DELETE("/:id", u.Delete())
 	}
-	r.Run()
+	
+	if err := r.Run(); err != nil{
+		log.Println(err.Error())
+	}
 }
