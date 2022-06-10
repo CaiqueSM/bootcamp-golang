@@ -1,16 +1,16 @@
-package usuarios
+package teste
 
 import (
 	"encoding/json"
 	"fmt"
 	"testing"
-
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAll(t *testing.T) {
-	input := []Usuario{
+	input := []usuarios.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -42,13 +42,13 @@ func TestGetAll(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := NewRepository(&storeStub)
+	myRepo := usuarios.NewRepository(&storeStub)
 	resp, _ := myRepo.GetAll()
 	assert.Equal(t, input, resp)
 }
 
 func TestUpdateSobrenomeIdade(t *testing.T) {
-	input := []Usuario{
+	input := []usuarios.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -71,7 +71,7 @@ func TestUpdateSobrenomeIdade(t *testing.T) {
 		},
 	}
 
-	expectedResult := Usuario{
+	expectedResult := usuarios.Usuario{
 		Id:        1,
 		Nome:      "A",
 		Sobrenome: "After Update",
@@ -93,9 +93,9 @@ func TestUpdateSobrenomeIdade(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := NewRepository(&storeStub)
+	myRepo := usuarios.NewRepository(&storeStub)
 	resp, err := myRepo.UpdateSobrenomeIdade(1, "After Update", 50)
-	if err!= nil{
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}

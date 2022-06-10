@@ -1,16 +1,17 @@
-package usuarios
+package teste
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"testing"
-
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestUpdate(t *testing.T) {
-	input := []Usuario{
+	input := []usuarios.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -33,7 +34,7 @@ func TestUpdate(t *testing.T) {
 		},
 	}
 
-	expectedResult := Usuario{
+	expectedResult := usuarios.Usuario{
 		Id:        1,
 		Nome:      "A",
 		Sobrenome: "After Update",
@@ -55,8 +56,8 @@ func TestUpdate(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := NewRepository(&storeStub)
-	myService := NewService(myRepo)
+	myRepo := usuarios.NewRepository(&storeStub)
+	myService := usuarios.NewService(myRepo)
 	resp, err := myService.Update(
 		1, "A","After Update","alternativo@email.com", 49, 1.90, true, "08/06/2022")
 	if err != nil {
@@ -68,7 +69,7 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	input := []Usuario{
+	input := []usuarios.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -91,7 +92,7 @@ func TestDelete(t *testing.T) {
 		},
 	}
 
-	expectedResult := []Usuario{
+	expectedResult := []usuarios.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -115,13 +116,28 @@ func TestDelete(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := NewRepository(&storeStub)
-	myService := NewService(myRepo)
+	myRepo := usuarios.NewRepository(&storeStub)
+	myService := usuarios.NewService(myRepo)
 	err1 := myService.Delete(2)
-	err2 := myService.Delete(3)
 	resp,_ := myService.GetAll()
 
 	assert.Equal(t, expectedResult, resp)
 	assert.Nil(t, err1)
-	assert.NotNil(t, err2)
+}
+
+func TestDeleteError(t *testing.T) {
+	expectedError := errors.New("error for delete")
+	dbMock := store.Mock{
+		Err: expectedError,
+	}
+	storeStub := store.FileStore{
+		FileName: "",
+		Mock:     &dbMock,
+	}
+	myRepo := usuarios.NewRepository(&storeStub)
+	myService := usuarios.NewService(myRepo)
+
+	err := myService.Delete(3)
+
+	assert.Equal(t, expectedError, err)
 }
