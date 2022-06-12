@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package fibonacci
 
 func Fibonacci(n int) int64 {
 	if n == 0 {
@@ -10,10 +8,4 @@ func Fibonacci(n int) int64 {
 		return 1
 	}
 	return Fibonacci(n-1) + Fibonacci(n-2)
-}
-
-func main(){
-	for i := 0; i < 10 ;i++{
-		fmt.Println(Fibonacci(i))
-	}	
 }
