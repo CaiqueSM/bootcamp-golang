@@ -6,7 +6,8 @@ import (
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/cmd/server/handler/controller"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/docs"
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/repository"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/service"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -31,13 +32,13 @@ func main() {
 	}
 
 	db := store.New(store.FileType, "../../usuarios.json")
-	repo := usuarios.NewRepository(db)
-	service := usuarios.NewService(repo)
+	repo := repository.NewRepository(db)
+	service := service.NewService(repo)
 	u := controller.NewUsuario(service)
 	r := gin.Default()
 
 	docs.SwaggerInfo.Host = os.Getenv("HOST")
-	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) 
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	ur := r.Group("/usuarios")
 	{
@@ -47,7 +48,6 @@ func main() {
 		ur.PATCH("/:id", u.UpdateSobrenomeIdade())
 		ur.DELETE("/:id", u.Delete())
 	}
-	
 	if err := r.Run(); err != nil{
 		log.Println(err.Error())
 	}

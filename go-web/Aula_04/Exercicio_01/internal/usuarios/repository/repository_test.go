@@ -1,4 +1,4 @@
-package usuarios_test
+package repository_test
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/repository"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
@@ -44,7 +44,7 @@ func TestGetAll(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := usuarios.NewRepository(&storeStub)
+	myRepo := repository.NewRepository(&storeStub)
 	resp, _ := myRepo.GetAll()
 	assert.Equal(t, input, resp)
 }
@@ -95,7 +95,7 @@ func TestUpdateSobrenomeIdade(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := usuarios.NewRepository(&storeStub)
+	myRepo := repository.NewRepository(&storeStub)
 	resp, err := myRepo.UpdateSobrenomeIdade(1, "After Update", 50)
 	if err != nil {
 		fmt.Println(err.Error())

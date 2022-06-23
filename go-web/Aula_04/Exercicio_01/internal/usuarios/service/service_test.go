@@ -1,4 +1,4 @@
-package usuarios_test
+package service_test
 
 import (
 	"encoding/json"
@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/repository"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/service"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
@@ -58,8 +59,8 @@ func TestUpdate(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := usuarios.NewRepository(&storeStub)
-	myService := usuarios.NewService(myRepo)
+	myRepo := repository.NewRepository(&storeStub)
+	myService := service.NewService(myRepo)
 	resp, err := myService.Update(
 		1, "A","After Update","alternativo@email.com", 49, 1.90, true, "08/06/2022")
 	if err != nil {
@@ -118,8 +119,8 @@ func TestDelete(t *testing.T) {
 		Mock:     &dbMock,
 	}
 
-	myRepo := usuarios.NewRepository(&storeStub)
-	myService := usuarios.NewService(myRepo)
+	myRepo := repository.NewRepository(&storeStub)
+	myService := service.NewService(myRepo)
 	err1 := myService.Delete(2)
 	resp,_ := myService.GetAll()
 
@@ -136,8 +137,8 @@ func TestDeleteError(t *testing.T) {
 		FileName: "",
 		Mock:     &dbMock,
 	}
-	myRepo := usuarios.NewRepository(&storeStub)
-	myService := usuarios.NewService(myRepo)
+	myRepo := repository.NewRepository(&storeStub)
+	myService := service.NewService(myRepo)
 
 	err := myService.Delete(3)
 

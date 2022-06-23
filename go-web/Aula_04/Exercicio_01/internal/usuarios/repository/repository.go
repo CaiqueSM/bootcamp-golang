@@ -1,4 +1,4 @@
-package usuarios
+package repository
 
 import (
 	"fmt"
