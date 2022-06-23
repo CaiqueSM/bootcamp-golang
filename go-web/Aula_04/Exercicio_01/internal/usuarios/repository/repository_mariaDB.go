@@ -13,7 +13,7 @@ type repositoryMariaDB struct {
 
 // Delete implements domain.Repository
 func (r *repositoryMariaDB) Delete(id int64) error {
-	stmt, err := r.db.Prepare(`DELETE usuarios WHERE id = ?`)
+	stmt, err := r.db.Prepare(`DELETE FROM usuarios WHERE id = ?`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +27,6 @@ func (r *repositoryMariaDB) Delete(id int64) error {
 // GetAll implements domain.Repository
 func (r *repositoryMariaDB) GetAll() ([]domain.Usuario, error) {
 	var usuarios []domain.Usuario
-	var usuario domain.Usuario
 	rows, err := r.db.Query(`SELECT id, nome, sobrenome, email, idade, altura, ativo, data
 	FROM usuarios`)
 	if err != nil {
@@ -36,11 +35,12 @@ func (r *repositoryMariaDB) GetAll() ([]domain.Usuario, error) {
 	}
 	defer rows.Close()
 	for rows.Next() {
+		usuario := domain.Usuario{}
 		if err := rows.Scan(&usuario.Id,
 			&usuario.Nome,
 			&usuario.Sobrenome,
 			&usuario.Email,
-			&usuario.Id,
+			&usuario.Idade,
 			&usuario.Altura,
 			&usuario.Ativo,
 			&usuario.Data,
@@ -73,7 +73,7 @@ func (r *repositoryMariaDB) LastID() (int64, error) {
 
 // UpdateSobrenomeIdade implements domain.Repository
 func (r *repositoryMariaDB) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (domain.Usuario, error) {
-	stmt, err := r.db.Prepare(`UPDATE usuarios SET, sobrenome = ?, idade = ? WHERE id = ?`)
+	stmt, err := r.db.Prepare(`UPDATE usuarios SET sobrenome = ?, idade = ? WHERE id = ?`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -122,7 +122,7 @@ func (r *repositoryMariaDB) GetOne(id int) domain.Usuario {
 			&usuario.Nome,
 			&usuario.Sobrenome,
 			&usuario.Email,
-			&usuario.Id,
+			&usuario.Idade,
 			&usuario.Altura,
 			&usuario.Ativo,
 			&usuario.Data,
