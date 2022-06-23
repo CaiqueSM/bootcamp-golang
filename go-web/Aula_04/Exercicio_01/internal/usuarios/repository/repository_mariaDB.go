@@ -39,11 +39,11 @@ func (r *repositoryMariaDB) GetAll() ([]domain.Usuario, error) {
 		if err := rows.Scan(&usuario.Id,
 			&usuario.Nome,
 			&usuario.Sobrenome,
-			usuario.Email,
-			usuario.Id,
-			usuario.Altura,
-			usuario.Ativo,
-			usuario.Data,
+			&usuario.Email,
+			&usuario.Id,
+			&usuario.Altura,
+			&usuario.Ativo,
+			&usuario.Data,
 		); err != nil {
 			log.Println(err.Error())
 			return []domain.Usuario{}, err
@@ -109,9 +109,9 @@ func (r *repositoryMariaDB) Store(id int64,
 
 func (r *repositoryMariaDB) GetOne(id int) domain.Usuario {
 	var usuario domain.Usuario
-	rows, err := r.db.Query(`SELECT id, nome, sobrenome, email, idade, altura, ativo, data 
-							FROM usuarios 
-							WHERE id = ?`, id)
+	rows, err := r.db.Query(`SELECT id, nome, sobrenome, email, idade, altura, ativo, data
+		FROM usuarios
+		WHERE id = ?`, id)
 	if err != nil {
 		log.Println(err)
 		return usuario
@@ -121,11 +121,11 @@ func (r *repositoryMariaDB) GetOne(id int) domain.Usuario {
 		if err := rows.Scan(&usuario.Id,
 			&usuario.Nome,
 			&usuario.Sobrenome,
-			usuario.Email,
-			usuario.Id,
-			usuario.Altura,
-			usuario.Ativo,
-			usuario.Data,
+			&usuario.Email,
+			&usuario.Id,
+			&usuario.Altura,
+			&usuario.Ativo,
+			&usuario.Data,
 		); err != nil {
 			log.Println(err.Error())
 			return usuario
