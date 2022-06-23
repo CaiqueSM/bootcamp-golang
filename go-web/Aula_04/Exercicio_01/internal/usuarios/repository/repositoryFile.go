@@ -7,17 +7,17 @@ import (
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 )
 
-type repository struct {
+type repositoryFile struct {
 	db store.Store
 }
 
 func NewRepository(db store.Store) domain.Repository {
-	return &repository{
+	return &repositoryFile{
 		db: db,
 	}
 }
 
-func (r *repository) GetAll() ([]domain.Usuario, error) {
+func (r *repositoryFile) GetAll() ([]domain.Usuario, error) {
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return []domain.Usuario{}, err
@@ -25,7 +25,7 @@ func (r *repository) GetAll() ([]domain.Usuario, error) {
 	return ps, nil
 }
 
-func (r *repository) Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
+func (r *repositoryFile) Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return domain.Usuario{}, err
@@ -38,7 +38,7 @@ func (r *repository) Store(id int64, nome, sobrenome, email string, idade uint, 
 	return u, nil
 }
 
-func (r *repository) LastID() (int64, error) {
+func (r *repositoryFile) LastID() (int64, error) {
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return 0, err
@@ -49,7 +49,7 @@ func (r *repository) LastID() (int64, error) {
 	return ps[len(ps)-1].Id, nil
 }
 
-func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
+func (r *repositoryFile) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
 	u := domain.Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
@@ -75,7 +75,7 @@ func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint,
 	return u, nil
 }
 
-func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (domain.Usuario, error) {
+func (r *repositoryFile) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (domain.Usuario, error) {
 	var u domain.Usuario
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
@@ -107,7 +107,7 @@ func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint
 	return u, nil
 }
 
-func (r *repository) Delete(id int64) error {
+func (r *repositoryFile) Delete(id int64) error {
 	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return err
