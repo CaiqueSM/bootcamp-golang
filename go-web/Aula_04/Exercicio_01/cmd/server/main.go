@@ -8,7 +8,7 @@ import (
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/docs"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/repository"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/service"
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/db"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
@@ -31,8 +31,10 @@ func main() {
 		log.Fatal("failed to load .env")
 	}
 
-	db := store.New(store.FileType, "../../usuarios.json")
-	repo := repository.NewRepository(db)
+	// db := store.New(store.FileType, "../../usuarios.json")
+	// repo := repository.NewRepository(db)
+	db.Init()
+	repo := repository.NewRepositoryMariaDB(db.StorageDB)
 	service := service.NewService(repo)
 	u := controller.NewUsuario(service)
 	r := gin.Default()
