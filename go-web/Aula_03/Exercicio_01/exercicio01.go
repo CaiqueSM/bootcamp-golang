@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,5 +42,7 @@ func ArmazenarUsuarios(c *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.POST("/usuarios", ArmazenarUsuarios)
-	router.Run()
+	if err := router.Run(); err!= nil{
+		log.Println(err.Error())
+	}
 }

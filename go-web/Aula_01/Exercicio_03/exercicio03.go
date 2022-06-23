@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -30,5 +31,7 @@ func GetAll(c *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.GET("/usuarios", GetAll)
-	router.Run()
+	if err := router.Run(); err!= nil{
+		log.Println(err.Error())
+	}
 }

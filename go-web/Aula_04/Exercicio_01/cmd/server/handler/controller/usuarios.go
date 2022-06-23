@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/web"
 	"github.com/gin-gonic/gin"
 )
@@ -32,7 +32,7 @@ type requestUpdate struct {
 }
 
 type Usuario struct {
-	service usuarios.Service
+	service domain.Service
 }
 
 // ListUsers godoc
@@ -235,7 +235,7 @@ func (c *Usuario) Delete() gin.HandlerFunc {
 	}
 }
 
-func NewUsuario(u usuarios.Service) *Usuario {
+func NewUsuario(u domain.Service) *Usuario {
 	return &Usuario{
 		service: u,
 	}

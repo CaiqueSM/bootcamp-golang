@@ -1,6 +1,10 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"log"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	router := gin.Default()
@@ -8,5 +12,7 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Olá Caíque"})
 	})
-	router.Run()
+	if err := router.Run(); err!= nil{
+		log.Println(err.Error())
+	}
 }

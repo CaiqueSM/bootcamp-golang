@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/cmd/server/handler/controller"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/gin-gonic/gin"
@@ -60,7 +61,7 @@ func TestGetUsuariosOK(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 
 	type foo struct {
-		Data []usuarios.Usuario
+		Data []domain.Usuario
 	}
 
 	objRes := foo{}
@@ -72,7 +73,7 @@ func TestGetUsuariosOK(t *testing.T) {
 
 func TestPatchUsuariosOK(t *testing.T) {
 
-	input := usuarios.Usuario{
+	input := domain.Usuario{
 		Id:        1,
 		Sobrenome: "Patch Update",
 		Idade:     45,
@@ -94,7 +95,7 @@ func TestPatchUsuariosOK(t *testing.T) {
 
 func TestPostUsuariosOK(t *testing.T) {
 
-	input := usuarios.Usuario{
+	input := domain.Usuario{
 		Nome:      "abcd",
 		Sobrenome: "jdhfg",
 		Email:     "generico@email.com",
@@ -120,7 +121,7 @@ func TestPostUsuariosOK(t *testing.T) {
 
 func TestPutUsuariosOK(t *testing.T) {
 
-	input := usuarios.Usuario{
+	input := domain.Usuario{
 		Id:        4,
 		Nome:      "abcd",
 		Sobrenome: "Put Update",

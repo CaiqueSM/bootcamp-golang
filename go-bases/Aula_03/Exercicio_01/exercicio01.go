@@ -17,12 +17,13 @@ func escreverArquivo() {
 	resposta := ""
 
 	arquivo, err := os.Create("produto.csv")
-	arquivo.Write([]byte(cabecalho))
-
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
+	_, errWrite := arquivo.Write([]byte(cabecalho))
+	if errWrite != nil {
+		fmt.Println(err.Error())
+	}
 	for {
 		fmt.Println("Adicionar novo produto: S/N")
 		fmt.Scanln(&resposta)
@@ -35,7 +36,7 @@ func escreverArquivo() {
 			fmt.Scanln(&quantidade)
 
 			linha := []byte(fmt.Sprint(ID, "\t", preco, "\t", quantidade, "\n"))
-			arquivo.Write(linha)
+			_, err = arquivo.Write(linha)
 
 			if err != nil {
 				fmt.Println(err.Error())

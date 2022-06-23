@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -73,5 +74,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/usuarios/:id", GetUser)
 	router.GET("/usuarios", FilterUsers)
-	router.Run()
+	if err := router.Run(); err!= nil{
+		log.Println(err.Error())
+	}
 }

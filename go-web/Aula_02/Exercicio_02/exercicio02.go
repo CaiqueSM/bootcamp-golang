@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,5 +38,7 @@ func GetUser(c *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.GET("/usuarios/:id", GetUser)
-	router.Run()
+	if err := router.Run(); err!= nil{
+		log.Println(err.Error())
+	}
 }

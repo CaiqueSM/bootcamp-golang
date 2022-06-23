@@ -41,5 +41,7 @@ func ArmazenarUsuarios(c *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.POST("/usuarios", ArmazenarUsuarios)
-	router.Run()
+	if err := router.Run(); err != nil{
+		fmt.Println(err.Error())
+	}
 }

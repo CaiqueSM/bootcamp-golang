@@ -7,12 +7,13 @@ import (
 	"testing"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestUpdate(t *testing.T) {
-	input := []usuarios.Usuario{
+	input := []domain.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -35,7 +36,7 @@ func TestUpdate(t *testing.T) {
 		},
 	}
 
-	expectedResult := usuarios.Usuario{
+	expectedResult := domain.Usuario{
 		Id:        1,
 		Nome:      "A",
 		Sobrenome: "After Update",
@@ -70,7 +71,7 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	input := []usuarios.Usuario{
+	input := []domain.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -93,7 +94,7 @@ func TestDelete(t *testing.T) {
 		},
 	}
 
-	expectedResult := []usuarios.Usuario{
+	expectedResult := []domain.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",

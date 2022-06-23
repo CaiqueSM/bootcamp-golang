@@ -4,57 +4,42 @@ import (
 	"fmt"
 
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 )
-
-type Usuario struct {
-	Id        int64   `json:"id"`
-	Nome      string  `json:"nome"`
-	Sobrenome string  `json:"sobrenome"`
-	Email     string  `json:"email"`
-	Idade     uint    `json:"idade"`
-	Altura    float64 `json:"altura"`
-	Ativo     bool    `json:"ativo"`
-	Data      string  `json:"data"`
-}
-
-//var ps []Usuario = []Usuario{}
-
-type Repository interface {
-	GetAll() ([]Usuario, error)
-	Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
-	LastID() (int64, error)
-	Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error)
-	UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error)
-	Delete(id int64) error
-}
 
 type repository struct {
 	db store.Store
 }
 
-func (r *repository) GetAll() ([]Usuario, error) {
-	var ps []Usuario
+func NewRepository(db store.Store) domain.Repository {
+	return &repository{
+		db: db,
+	}
+}
+
+func (r *repository) GetAll() ([]domain.Usuario, error) {
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
-		return []Usuario{}, err
+		return []domain.Usuario{}, err
 	}
 	return ps, nil
 }
 
-func (r *repository) Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
-	var ps []Usuario
+func (r *repository) Store(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
-	u := Usuario{id, nome, sobrenome, email, idade, altura, ativo, data}
+	u := domain.Usuario{Id: id, Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
 	ps = append(ps, u)
 	if err := r.db.Write(ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
 	return u, nil
 }
 
 func (r *repository) LastID() (int64, error) {
-	var ps []Usuario
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return 0, err
 	}
@@ -64,11 +49,11 @@ func (r *repository) LastID() (int64, error) {
 	return ps[len(ps)-1].Id, nil
 }
 
-func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (Usuario, error) {
-	u := Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
-	var ps []Usuario
+func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint, altura float64, ativo bool, data string) (domain.Usuario, error) {
+	u := domain.Usuario{Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
 	updated := false
 	for i := range ps {
@@ -80,21 +65,21 @@ func (r *repository) Update(id int64, nome, sobrenome, email string, idade uint,
 	}
 
 	if !updated {
-		return Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
+		return domain.Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
 	}
 
 	if err := r.db.Write(ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
 
 	return u, nil
 }
 
-func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (Usuario, error) {
-	var u Usuario
-	var ps []Usuario
+func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (domain.Usuario, error) {
+	var u domain.Usuario
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
 	updated := false
 	for i := range ps {
@@ -112,18 +97,18 @@ func (r *repository) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint
 	}
 
 	if !updated {
-		return Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
+		return domain.Usuario{}, fmt.Errorf("usuário %d não encontrado", id)
 	}
 
 	if err := r.db.Write(ps); err != nil {
-		return Usuario{}, err
+		return domain.Usuario{}, err
 	}
 
 	return u, nil
 }
 
 func (r *repository) Delete(id int64) error {
-	var ps []Usuario
+	var ps []domain.Usuario
 	if err := r.db.Read(&ps); err != nil {
 		return err
 	}
@@ -145,10 +130,4 @@ func (r *repository) Delete(id int64) error {
 		return err
 	}
 	return nil
-}
-
-func NewRepository(db store.Store) Repository {
-	return &repository{
-		db: db,
-	}
 }

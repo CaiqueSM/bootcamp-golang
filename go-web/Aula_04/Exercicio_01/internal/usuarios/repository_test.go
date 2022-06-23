@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios"
 	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAll(t *testing.T) {
-	input := []usuarios.Usuario{
+	input := []domain.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -49,7 +50,7 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestUpdateSobrenomeIdade(t *testing.T) {
-	input := []usuarios.Usuario{
+	input := []domain.Usuario{
 		{
 			Id:        1,
 			Nome:      "A",
@@ -72,7 +73,7 @@ func TestUpdateSobrenomeIdade(t *testing.T) {
 		},
 	}
 
-	expectedResult := usuarios.Usuario{
+	expectedResult := domain.Usuario{
 		Id:        1,
 		Nome:      "A",
 		Sobrenome: "After Update",
