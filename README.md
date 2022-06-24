@@ -6,3 +6,5 @@ Exercícios e materiais do bootcamp de linguagem GO
 - Gin Web Framework
 - Testify
 - golangci-lint
+- database/sql
+- go-sqlmock
