@@ -20,7 +20,7 @@ import (
 
 func createServer() *gin.Engine {
 	_ = os.Setenv("TOKEN", "123456")
-	db := store.New(store.FileType, "../../usuarios.json")
+	db := store.New(store.FileType, "../../../../usuarios.json")
 	repo := repository.NewRepository(db)
 	service := service.NewService(repo)
 	u := controller.NewUsuario(service)
