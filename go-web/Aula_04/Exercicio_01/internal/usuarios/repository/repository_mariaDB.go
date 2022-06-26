@@ -100,7 +100,7 @@ func (r *repositoryMariaDB) Store(id int64,
 	var result sql.Result
 	result, err = stmt.Exec(nome, sobrenome, email, idade, altura, ativo, data)
 	if err != nil {
-		return domain.Usuario{}, nil
+		return domain.Usuario{}, err
 	}
 	log.Println(result.RowsAffected())
 	return domain.Usuario{Id: id, Nome: nome, Sobrenome: sobrenome, Email: email, Idade: idade, Altura: altura, Ativo: ativo, Data: data}, nil
