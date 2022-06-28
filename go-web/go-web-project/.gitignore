@@ -1,0 +1,21 @@
+/db/product/product.json
+/db/section/sections.json
+/db/buyer/buyers.json
+/db/seller/seller.json
+/db/employee/employee.json
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# IDE
+\.idea/
+\.vscode/
+
+# Env file
+*.env
+
+# MacOS
+.DS_Store

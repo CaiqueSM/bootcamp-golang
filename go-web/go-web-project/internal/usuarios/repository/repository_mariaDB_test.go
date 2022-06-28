@@ -3,8 +3,8 @@ package repository_test
 import (
 	"testing"
 
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/domain"
-	"github.com/CaiqueSM/bootcamp-golang.git/go-web/Aula_04/Exercicio_01/internal/usuarios/repository"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/go-web-project/internal/usuarios/domain"
+	"github.com/CaiqueSM/bootcamp-golang.git/go-web/go-web-project/internal/usuarios/repository"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 )
