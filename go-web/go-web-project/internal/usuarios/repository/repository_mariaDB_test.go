@@ -97,3 +97,40 @@ func TestUpdateDB(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, usuarioAtualizado, usuarioResult)
 }
+
+func TestUpdateSobrenomeIdadeDB(t *testing.T) {
+	usuarioAtualizado := domain.Usuario{
+		Id:        1,
+		Nome:      "",
+		Sobrenome: "After Update",
+		Email:     "",
+		Idade:     26,
+		Altura:    0,
+		Ativo:     false,
+		Data:      "",
+	}
+
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	mock.ExpectPrepare("UPDATE usuarios")
+	mock.ExpectExec("UPDATE usuarios").WillReturnResult(sqlmock.NewResult(1,1))
+
+	myRepo := repository.NewRepositoryMariaDB(db)
+	usuarioResult, err := myRepo.UpdateSobrenomeIdade(1,"After Update",26)
+	assert.NoError(t, err)
+	assert.Equal(t, usuarioAtualizado, usuarioResult)
+}
+
+func TestDeleteDB(t *testing.T){
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	mock.ExpectPrepare("DELETE FROM usuarios")
+	mock.ExpectExec("DELETE FROM usuarios").WillReturnResult(sqlmock.NewResult(0, 1))
+	myRepo := repository.NewRepositoryMariaDB(db)
+	err = myRepo.Delete(1)
+	assert.NoError(t, err)
+}
