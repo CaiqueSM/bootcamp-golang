@@ -55,22 +55,27 @@ func (r *repositoryMariaDB) GetAll() ([]domain.Usuario, error) {
 
 // LastID implements domain.Repository
 func (r *repositoryMariaDB) LastID() (int64, error) {
-	lastID:= 0
-	rows, err := r.db.Query(`SELECT MAX(id) FROM usuarios`)
+	var lastID int64
+	rows, err := r.db.Query(`SELECT MAX(id) FROM employees`)
 	if err != nil {
-		log.Println(err)
 		return 0, err
 	}
 	defer rows.Close()
-	if rows.Next(){
-		if err := rows.Scan(&lastID); err != nil {
-			log.Println(err.Error())
+
+	if rows.Next() {
+		var nullInt sql.NullInt64
+
+		if err := rows.Scan(&nullInt); err != nil {
 			return 0, err
 		}
-	}
-	return int64(lastID), nil
-}
 
+		if nullInt.Valid{
+			lastID = nullInt.Int64
+		}
+	}
+
+	return lastID, nil
+}
 // UpdateSobrenomeIdade implements domain.Repository
 func (r *repositoryMariaDB) UpdateSobrenomeIdade(id int64, sobrenome string, idade uint) (domain.Usuario, error) {
 	stmt, err := r.db.Prepare(`UPDATE usuarios SET sobrenome = ?, idade = ? WHERE id = ?`)
