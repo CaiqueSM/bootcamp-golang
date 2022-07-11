@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  gowebproject:
-    image: gowebproject
+  bootcampgolang:
+    image: bootcampgolang
     build:
       context: .
       dockerfile: ./Dockerfile
